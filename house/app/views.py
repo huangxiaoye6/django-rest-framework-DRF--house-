@@ -235,8 +235,8 @@ class PredictView(APIView):
         try:
             input_data = request.data
             predict_data = predict_model.delay(input_data)
-            print(predict_data.get())
-            return Response(data={'msg': '预测成功', 'data': {'single_price': 7912, 'total_price': 96}, 'code': 200})
+            return Response(data={'msg': '预测成功', 'data': {'single_price': predict_data.get()['single_price'],
+                                                              'total_price': predict_data.get()['total_price']},'code': 200})
         except Exception as error:
             return Response(data={'msg': '预测失败', 'error': error}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
